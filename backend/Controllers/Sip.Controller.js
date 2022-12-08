@@ -1,12 +1,13 @@
 export const calculateSIP = async (req, res) => {
     try {
-        const { amount, compundRate,duration,returnRate } = req.body;
-        let futureValue=amount*[(1+compundRate)^duration-1]*(1+compundRate)/compundRate;
-
+        let { amount, compoundRate,duration,returnRate } = req.body;
+       
+        let calculatedValue=Math.floor(amount * (Math.pow((1+compoundRate),duration)-1) * ((1+compoundRate)/compoundRate))
+        
         res.json({
-            return:futureValue,
-            invested_amount:futureValue,
-            Total_value:futureValue+returnRate
+            return:calculatedValue,
+            invested_amount:calculatedValue,
+            total_value:calculatedValue+calculatedValue
         })
     } catch (error) {
         console.log(error);

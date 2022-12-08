@@ -1,5 +1,5 @@
-import User from '../models/user'
-import { comparePassword, hashPassword } from '../utils/auth'
+import User from '../Models/User.model.js'
+import { comparePassword, hashPassword } from '../utils/auth.js'
 import jwt from 'jsonwebtoken'
 
 export const register = async (req, res) => {
@@ -27,15 +27,24 @@ export const login = async (req, res) => {
         if (!user) return res.status(400).send("No User Found")
         //check password
         const match = await comparePassword(password, user.password)
+        if(!match) return res.status(401).json({messsage:"Entered password is wrong"})
         const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: "1d" })
-        user.password = undefined;
+        user={...user._doc,token,password:undefined}
         res.cookie('token', token, {
-            httpOnly: true,
-            // secure:true
+            httpOnly: true
         })
         res.json(user)
     } catch (error) {
         console.log(error);
         return res.status(400).send("Error,login")
+    }
+}
+export const logout = async (req, res) => {
+    try {
+       res.clearCookie("token")
+       return res.json({message:"SignOut Success"})
+    } catch (error) {
+        console.log(error);
+        return res.status(400).send("Error,logout")
     }
 }

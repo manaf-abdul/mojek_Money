@@ -4,6 +4,8 @@ import { SyncOutlined } from '@ant-design/icons'
 import Link from "next/link"
 import { Context } from '../context'
 import {useRouter} from 'next/router'
+import { toast } from "react-toastify"
+import { BASEURL } from "../constants"
 
 const Register = () => {
     const router=useRouter()
@@ -24,9 +26,10 @@ const Register = () => {
       try {
         setLoading(true)
         console.table({ name, email, password });
-        const { data } = await axios.post(`/api/register`, { name, email, password })
-        toast.success('Registarion sunccessfull.Please Login')
+        const { data } = await axios.post(`${BASEURL}/api/user/signup`, { name, email, password })
+        toast.success('Registration successfull. Please Login')
         setLoading(false)
+        router.push('/login')
       } catch (error) {
         toast.error(error.response.data)
         setLoading(false)
@@ -35,7 +38,7 @@ const Register = () => {
   
     return (
       <>
-        <h1 className='jumbotron bg-primary square text-center'>Register</h1>
+        <h1 className='jumbotron bg-primary square text-center' style={{color:"white"}}>Register</h1>
   
         <div className='container col-md-4 offset-md-4 pb-5'>
           <form onSubmit={handleSubmit}>

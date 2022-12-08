@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 const userModel = new mongoose.Schema(
     {
-        username: {
+        name: {
             type: String,
             default:null
         },

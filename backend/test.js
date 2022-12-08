@@ -1,26 +1,35 @@
-let tName = 'ar5un_4899704ma+@na[f7895';
+let data = 'ar5un_4899704ma+@na[f7895';
 
-let newStr = tName.replace(/[^0-9]/gi, '_').split('_').filter(x=>x!=="").map(x=>Number(x))
-let greatestValue=Math.max(...newStr)
+//Not Using JS inbuilt Functions
 
+let string="";
+let maxValue=0;
+let tempValue=0;
 
-let string=""
-let greaterNumber=0
-for(var i=0;i<=tName.length;i++){
-    if(!isNaN(tName[i])){
-        string=string.concat(tName[i])
+//To check if value is a number or not
+function isNumber(value){
+    return !isNaN(value)
+}
+
+//To loop over throught characters in the string
+for(var i=0;i<=data.length;i++){
+    let char=data[i]
+    if(isNumber(char)){
+        string=string+char
     }else{
         if(string!==""){
-            let temp=
-            if(Number(string)<greaterNumber){
-                console.log("str",Number(string));
-                console.log("inside");
-                greaterNumber=Number(string)
-            }else{
-                greaterNumber=Number(string)
+            tempValue=Number(string)
+            if(tempValue>maxValue){
+                maxValue=tempValue
             }
         }
         string=""
     }
 }
-console.log("arr",greaterNumber);
+console.log("Max Value : ",maxValue)
+
+
+//Using JS inbuilt Functions
+let newStr = data.replace(/[^0-9]/gi, '_').split('_').filter(x=>x!=="").map(x=>Number(x))
+let greatestValue=Math.max(...newStr)
+console.log("greatestValue : ",greatestValue)

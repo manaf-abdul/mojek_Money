@@ -4,6 +4,8 @@ import { SyncOutlined } from '@ant-design/icons'
 import Link from "next/link"
 import { Context } from '../context'
 import {useRouter} from 'next/router'
+import { BASEURL } from "../constants"
+import { toast } from "react-toastify"
 
 const Login = () => {
 
@@ -28,21 +30,22 @@ const Login = () => {
       try {
         setLoading(true)
         console.table({ email, password });
-        const { data } = await axios.post(`/api/login`, { email, password })
+        const { data } = await axios.post(`${BASEURL}/api/user/signin`, { email, password })
         dispatch({type:"LOGIN",payload:data})
         window.localStorage.setItem('user',JSON.stringify(data))
         router.push('/')
-        toast.success('Please Login')
+        toast.success('Login Successfull')
         setLoading(false)
       } catch (error) {
-        toast.error(error.response.data)
+        console.log("error",error.response.data.messsage);
+        toast.error(error.response.data.messsage)
         setLoading(false)
       }
     }
   
     return (
       <>
-        <h1 className='jumbotron bg-primary square text-center'>Login</h1>
+        <h1 className='jumbotron bg-primary square text-center' style={{color:"white"}}>Login</h1>
   
         <div className='container col-md-4 offset-md-4 pb-5'>
           <form onSubmit={handleSubmit}>
